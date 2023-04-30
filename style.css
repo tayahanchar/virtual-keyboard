@@ -51,16 +51,26 @@
   border-radius: 4px;
   background-color: white;
   cursor: pointer;
+  transition: 0.5s;
+}
+.key:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 3px 0 rgb(32, 107, 109);
 }
 
 .key:active {
   background-color: rgb(32, 107, 109);
   color: white;
+  transform: translateY(0px);
+  box-shadow: 0 0 0 rgb(32, 107, 109);
 }
 
 .key--active {
   background-color: rgb(32, 107, 109);
   color: white;
+  transform: translateY(0px);
+  box-shadow: 0 0 0 rgb(32, 107, 109);
+  transition: 0.5s;
 }
 
 .grow {

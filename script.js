@@ -292,7 +292,7 @@ window.addEventListener('keydown', (e) => {
       document.querySelector('[code="Delete"]').addEventListener('click', deleteNextLetter);
       document.querySelector('[code="ArrowRight"]').addEventListener('click', moveRight);
       document.querySelector('[code="ArrowLeft"]').addEventListener('click', moveLeft);
-    }, 40);
+    }, 300);
   }
 });
 
