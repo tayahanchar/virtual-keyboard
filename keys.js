@@ -72,6 +72,7 @@ export const keysEng = [
   {
     key: 'Tab',
     code: 'Tab',
+    shiftKey: '\u0009',
   },
   {
     key: 'q',
@@ -206,6 +207,7 @@ export const keysEng = [
     key: 'Enter',
     code: 'Enter',
     additionalClass: 'grow',
+    enter: '\u000A',
   },
   {
     key: 'Shift',
@@ -286,6 +288,7 @@ export const keysEng = [
   {
     key: ' ',
     code: 'Space',
+    shiftKey: ' ',
     additionalClass: 'growx',
   },
   {
@@ -385,6 +388,7 @@ export const keysRu = [
   {
     key: 'Tab',
     code: 'Tab',
+    shiftKey: '\u0009',
   },
   {
     key: 'й',
@@ -519,6 +523,7 @@ export const keysRu = [
     key: 'Enter',
     code: 'Enter',
     additionalClass: 'grow',
+    enter: '\u000A',
   },
   {
     key: 'Shift',
@@ -599,6 +604,7 @@ export const keysRu = [
   {
     key: ' ',
     code: 'Space',
+    shiftKey: ' ',
     additionalClass: 'growx',
   },
   {

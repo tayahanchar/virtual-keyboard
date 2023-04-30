@@ -15,7 +15,7 @@ function createApp() {
     <p>The keyboard shortcut for changing language is Shift + Meta</p>
   </div>
 
-    <textarea class="textarea"></textarea>
+    <textarea class="textarea" id="textarea"></textarea>
 
   <div class="keyboard">
     <div class="row"></div>
@@ -37,7 +37,9 @@ function createKeyboard(keys) {
       key.textContent = item.key;
       key.setAttribute('code', item.code);
       key.setAttribute('key', item.key);
-      key.setAttribute('keyShift', item.shiftKey ? item.shiftKey : item.key);
+      if (item.shiftKey) {
+        key.setAttribute('keyShift', item.shiftKey);
+      }
       if (item.additionalClass) {
         key.classList.add(`${item.additionalClass}`);
       }
@@ -50,9 +52,14 @@ function createKeyboard(keys) {
       const key = document.createElement('div');
       key.classList.add('key');
       key.textContent = item.shiftKey ? item.shiftKey : item.key;
+      if (index === 14) {
+        key.textContent = item.key;
+      }
       key.setAttribute('code', item.code);
       key.setAttribute('key', item.key);
-      key.setAttribute('keyShift', item.shiftKey ? item.shiftKey : item.key);
+      if (item.shiftKey) {
+        key.setAttribute('keyShift', item.shiftKey);
+      }
       if (item.additionalClass) {
         key.classList.add(`${item.additionalClass}`);
       }
@@ -69,7 +76,9 @@ function createKeyboard(keys) {
       key.textContent = item.shiftKey ? item.shiftKey : item.key;
       key.setAttribute('code', item.code);
       key.setAttribute('key', item.key);
-      key.setAttribute('keyShift', item.shiftKey ? item.shiftKey : item.key);
+      if (item.shiftKey) {
+        key.setAttribute('keyShift', item.shiftKey);
+      }
       if (item.additionalClass) {
         key.classList.add(`${item.additionalClass}`);
       }
@@ -77,6 +86,10 @@ function createKeyboard(keys) {
         if (index === 39 || index === 40) {
           key.textContent += ` ${item.key}`;
         }
+      }
+
+      if (item.code === 'Enter') {
+        key.setAttribute('enter', item.enter);
       }
       rows[2].append(key);
     }
@@ -86,13 +99,20 @@ function createKeyboard(keys) {
       key.textContent = item.shiftKey ? item.shiftKey : item.key;
       key.setAttribute('code', item.code);
       key.setAttribute('key', item.key);
-      key.setAttribute('keyShift', item.shiftKey ? item.shiftKey : item.key);
+      if (item.shiftKey) {
+        key.setAttribute('keyShift', item.shiftKey);
+      }
       if (item.additionalClass) {
         key.classList.add(`${item.additionalClass}`);
       }
       if (isEnglish) {
         if (index >= 50 && index <= 52) {
           key.textContent += ` ${item.key}`;
+        }
+      }
+      if (!isEnglish) {
+        if (index === 52) {
+          key.textContent = `${item.shiftKey} ${item.key}`;
         }
       }
       if (index === 53) {
@@ -106,7 +126,9 @@ function createKeyboard(keys) {
       key.textContent = item.shiftKey ? item.shiftKey : item.key;
       key.setAttribute('code', item.code);
       key.setAttribute('key', item.key);
-      key.setAttribute('keyShift', item.shiftKey ? item.shiftKey : item.key);
+      if (item.shiftKey) {
+        key.setAttribute('keyShift', item.shiftKey);
+      }
       if (item.additionalClass) {
         key.classList.add(`${item.additionalClass}`);
       }
@@ -148,12 +170,21 @@ function initApp() {
 
 initApp();
 
+let isCapsLock = JSON.parse(localStorage.getItem('isCapsLock'));
+
+if (isCapsLock === true) {
+  document.querySelector(`[code=CapsLock]`).classList.add('key--active');
+}
+if (isCapsLock === null) {
+  isCapsLock = false;
+}
+localStorage.setItem('isCapslock', isCapsLock);
+
 window.addEventListener('keydown', lightLetterinVirtualKeyboard);
 window.addEventListener('keyup', removeLightLetterinVirtualKeyboard);
 
 let isShift = false;
-const input = document.querySelector('.input');
-const keysArray = document.querySelectorAll('.key');
+const keyboard = document.querySelector('.keyboard');
 
 window.addEventListener('keyup', (e) => {
   if (e.code === 'ShiftRight' || e.code === 'ShiftLeft') {
@@ -170,7 +201,183 @@ window.addEventListener('keydown', (e) => {
     isEnglish = !isEnglish;
     localStorage.setItem('isEnglish', isEnglish);
 
-    document.body.innerHTML = '';
-    initApp();
+    document.querySelector('.keyboard').innerHTML = `<div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>`;
+
+    if (isEnglish) {
+      createKeyboard(keysEng);
+    }
+
+    if (!isEnglish) {
+      createKeyboard(keysRu);
+    }
+
+    if(JSON.parse(localStorage.getItem('isCapsLock')) === true) {
+      document.querySelector(`[code=CapsLock]`).classList.add('key--active');
+    }
+
+    document.querySelector(`[code=CapsLock]`).addEventListener('click', (event) => {
+      event.target.classList.toggle('key--active');
+      if (event.target.classList.contains('key--active')) {
+        localStorage.setItem('isCapsLock', true);
+      }
+      if (!event.target.classList.contains('key--active')) {
+        localStorage.setItem('isCapsLock', false);
+      }
+    });
+    document.querySelector('[code="Backspace"]').addEventListener('click', deleteLetter);
+    document.querySelector('[code="Delete"]').addEventListener('click', deleteNextLetter);
+    document.querySelector('[code="ArrowRight"]').addEventListener('click', moveRight);
+    document.querySelector('[code="ArrowLeft"]').addEventListener('click', moveLeft);
   }
 });
+
+
+// function printLetter(event) {
+//   if (event.target.hasAttribute('keyshift')) {
+//     if (document.querySelector(`[code=CapsLock]`).classList.contains('key--active')) {
+//       document.querySelector('.textarea').focus();
+//       document.querySelector('.textarea').value += event.target.getAttribute('keyshift');
+//     } else {
+//       document.querySelector('.textarea').focus();
+//       if(event.target.getAttribute('code') === 'Tab') {
+//         document.querySelector('.textarea').value += event.target.getAttribute('keyshift');
+//         return;
+//       }
+//       document.querySelector('.textarea').value += event.target.getAttribute('key');
+//     }
+//   }
+
+//   if (event.target.getAttribute('code') === 'Enter') {
+//     document.querySelector('.textarea').value += event.target.getAttribute('enter');
+//     document.querySelector('.textarea').focus();
+//   }
+
+//   const position = document.querySelector('.textarea').selectionStart;
+//   console.log(position);
+// }
+
+function setCaretPosition(elem, pos) {
+  if (elem.setSelectionRange) {
+    elem.focus();
+    elem.setSelectionRange(pos, pos);
+  } else if (elem.createTextRange) {
+    const range = elem.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', pos);
+    range.moveStart('character', pos);
+    range.select();
+  }
+}
+
+document.querySelector('.textarea').focus();
+
+function printLetter(event) {
+  if (event.target.hasAttribute('keyshift')) {
+    if (document.querySelector(`[code=CapsLock]`).classList.contains('key--active')) {
+      document.querySelector('.textarea').focus();
+
+      const position = document.querySelector('.textarea').selectionStart;
+      const text = document.querySelector('.textarea').value;
+
+      document.querySelector('.textarea').value = `${text.slice(0, position)}${event.target.getAttribute('keyshift')}${text.slice(position)}`;
+
+      const textarea = document.getElementById('textarea');
+      setCaretPosition(textarea, `${position + 1}`);
+    } else {
+      document.querySelector('.textarea').focus();
+
+      if(event.target.getAttribute('code') === 'Tab') {
+        document.querySelector('.textarea').value += event.target.getAttribute('keyshift');
+        return;
+      }
+      const position = document.querySelector('.textarea').selectionStart;
+      const text = document.querySelector('.textarea').value;
+
+      document.querySelector('.textarea').value = `${text.slice(0, position)}${event.target.getAttribute('key')}${text.slice(position)}`;
+
+      const textarea = document.getElementById('textarea');
+      setCaretPosition(textarea, `${position + 1}`);
+    }
+  }
+
+  if (event.target.getAttribute('code') === 'Enter') {
+    document.querySelector('.textarea').value += event.target.getAttribute('enter');
+    document.querySelector('.textarea').focus();
+  }
+
+  const position = document.querySelector('.textarea').selectionStart;
+}
+
+document.querySelector(`[code=CapsLock]`).addEventListener('click', (event) => {
+  event.target.classList.toggle('key--active');
+  if (event.target.classList.contains('key--active')) {
+    localStorage.setItem('isCapsLock', true);
+  }
+
+  if (!event.target.classList.contains('key--active')) {
+    localStorage.setItem('isCapsLock', false);
+  }
+});
+
+keyboard.addEventListener('click', printLetter);
+
+window.onkeydown = (evt) => {
+  if (evt.key == 'Tab') {
+    evt.preventDefault();
+  }
+};
+
+function deleteLetter() {
+  document.querySelector('.textarea').focus();
+
+  const position = document.querySelector('.textarea').selectionStart;
+  const text = document.querySelector('.textarea').value;
+
+  document.querySelector('.textarea').value = `${text.slice(0, `${position - 1}`)}${text.slice(position)}`;
+
+  const textarea = document.getElementById('textarea');
+  setCaretPosition(textarea, `${position - 1}`);
+}
+
+
+document.querySelector('[code="Backspace"]').addEventListener('click', deleteLetter);
+
+
+function moveLeft() {
+  const position = document.querySelector('.textarea').selectionStart;
+
+  const textarea = document.getElementById('textarea');
+  setCaretPosition(textarea, `${position - 1}`);
+  console.log(position)
+}
+
+document.querySelector('[code="ArrowLeft"]').addEventListener('click', moveLeft);
+
+function moveRight() {
+  const position = document.querySelector('.textarea').selectionStart;
+
+  const textarea = document.getElementById('textarea');
+  setCaretPosition(textarea, `${position + 1}`);
+}
+
+
+document.querySelector('[code="ArrowRight"]').addEventListener('click', moveRight);
+
+function deleteNextLetter() {
+  document.querySelector('.textarea').focus();
+
+  const position = document.querySelector('.textarea').selectionStart;
+  const text = document.querySelector('.textarea').value;
+
+  document.querySelector('.textarea').value = `${text.slice(0, `${position}`)}${text.slice(`${position + 1}`)}`;
+
+  const textarea = document.getElementById('textarea');
+  setCaretPosition(textarea, `${position}`);
+}
+
+
+document.querySelector('[code="Delete"]').addEventListener('click', deleteNextLetter);
