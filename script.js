@@ -338,7 +338,12 @@ function printLetter(event) {
       document.querySelector('.textarea').focus();
 
       if (event.target.getAttribute('code') === 'Tab') {
-        document.querySelector('.textarea').value += event.target.getAttribute('keyshift');
+        document.querySelector('.textarea').focus();
+        const position = document.querySelector('.textarea').selectionStart;
+        const text = document.querySelector('.textarea').value;
+        document.querySelector('.textarea').value = `${text.slice(0, position)}${event.target.getAttribute('keyshift')}${text.slice(position)}`;
+        const textarea = document.getElementById('textarea');
+        setCaretPosition(textarea, `${position + 1}`);
         return;
       }
       const position = document.querySelector('.textarea').selectionStart;
@@ -352,8 +357,14 @@ function printLetter(event) {
   }
 
   if (event.target.getAttribute('code') === 'Enter') {
-    document.querySelector('.textarea').value += event.target.getAttribute('enter');
     document.querySelector('.textarea').focus();
+    const position = document.querySelector('.textarea').selectionStart;
+    const text = document.querySelector('.textarea').value;
+
+    document.querySelector('.textarea').value = `${text.slice(0, position)}${event.target.getAttribute('enter')}${text.slice(position)}`;
+
+    const textarea = document.getElementById('textarea');
+    setCaretPosition(textarea, `${position + 1}`);
   }
 
   // const position = document.querySelector('.textarea').selectionStart;
