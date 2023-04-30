@@ -16,6 +16,7 @@
   font-size: 60px;
   text-align: center;
   background: -webkit-linear-gradient(90deg, rgba(10,62,62,1) 0%, rgba(23,119,113,1) 40%, rgba(30,172,171,1) 100%);
+  background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -53,6 +54,11 @@
 }
 
 .key:active {
+  background-color: rgb(32, 107, 109);
+  color: white;
+}
+
+.key--active {
   background-color: rgb(32, 107, 109);
   color: white;
 }
