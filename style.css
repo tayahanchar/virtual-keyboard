@@ -55,7 +55,7 @@
 }
 .key:hover {
   transform: translateY(-4px);
-  box-shadow: 0 3px 0 rgb(32, 107, 109);
+  box-shadow: 0 5px 0 rgb(32, 107, 109);
 }
 
 .key:active {
@@ -78,7 +78,7 @@
 }
 
 .growx {
-  flex-grow: 8;
+  flex-grow: 25;
 }
 
 textarea {

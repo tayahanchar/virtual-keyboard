@@ -12,7 +12,7 @@ function createApp() {
   container.innerHTML = `<h1 class="title">Keyboard</h1>
   <div class="descr">
     <p>OS the virtual keyboard is MacOS</p>
-    <p>The keyboard shortcut for changing language is Shift + Meta</p>
+    <p>The keyboard shortcut for changing language is Shift + Command</p>
   </div>
 
     <textarea class="textarea" id="textarea"></textarea>
@@ -124,6 +124,9 @@ function createKeyboard(keys) {
       const key = document.createElement('div');
       key.classList.add('key');
       key.textContent = item.shiftKey ? item.shiftKey : item.key;
+      if (item.key === 'Meta') {
+        key.textContent = 'Command';
+      }
       key.setAttribute('code', item.code);
       key.setAttribute('key', item.key);
       if (item.shiftKey) {
@@ -402,3 +405,32 @@ window.onkeydown = (evt) => {
     evt.preventDefault();
   }
 };
+
+function moveUp() {
+  const position = document.querySelector('.textarea').selectionStart;
+
+  const textarea = document.getElementById('textarea');
+  if (textarea.value.slice(0, position).split('').lastIndexOf('\n') !== -1) {
+    setCaretPosition(textarea, `${textarea.value.slice(0, position).split('').lastIndexOf('\n')}`);
+  }
+
+  document.querySelector('.textarea').focus();
+}
+
+document.querySelector('[code="ArrowUp"]').addEventListener('click', moveUp);
+
+function moveDown() {
+  const position = document.querySelector('.textarea').selectionStart;
+
+  const textarea = document.getElementById('textarea');
+
+  const arr = new Array(position + 1);
+  const restOfAr = textarea.value.slice(position + 1);
+  const res = [...arr, ...restOfAr];
+  if (res.indexOf('\n')) {
+    setCaretPosition(textarea, `${res.indexOf('\n')}`);
+  }
+  document.querySelector('.textarea').focus();
+}
+
+document.querySelector('[code="ArrowDown"]').addEventListener('click', moveDown);
