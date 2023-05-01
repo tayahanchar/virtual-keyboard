@@ -11,8 +11,8 @@ function createApp() {
   container.classList.add('container');
   container.innerHTML = `<h1 class="title">Keyboard</h1>
   <div class="descr">
-    <p>OS the virtual keyboard is MacOS</p>
-    <p>The keyboard shortcut for changing language is Shift + Command</p>
+    <p>The virtual keyboard was created on MacOS</p>
+    <p>The keyboard shortcut for changing language is <span>Shift+Command</span></p>
   </div>
 
     <textarea class="textarea" id="textarea"></textarea>
@@ -313,30 +313,6 @@ window.addEventListener('keydown', (e) => {
   }
 });
 
-// function printLetter(event) {
-//   if (event.target.hasAttribute('keyshift')) {
-//     if (document.querySelector(`[code=CapsLock]`).classList.contains('key--active')) {
-//       document.querySelector('.textarea').focus();
-//       document.querySelector('.textarea').value += event.target.getAttribute('keyshift');
-//     } else {
-//       document.querySelector('.textarea').focus();
-//       if(event.target.getAttribute('code') === 'Tab') {
-//         document.querySelector('.textarea').value += event.target.getAttribute('keyshift');
-//         return;
-//       }
-//       document.querySelector('.textarea').value += event.target.getAttribute('key');
-//     }
-//   }
-
-//   if (event.target.getAttribute('code') === 'Enter') {
-//     document.querySelector('.textarea').value += event.target.getAttribute('enter');
-//     document.querySelector('.textarea').focus();
-//   }
-
-//   const position = document.querySelector('.textarea').selectionStart;
-//   console.log(position);
-// }
-
 document.querySelector('.textarea').focus();
 
 function printLetter(event) {
@@ -383,8 +359,6 @@ function printLetter(event) {
     const textarea = document.getElementById('textarea');
     setCaretPosition(textarea, `${position + 1}`);
   }
-
-  // const position = document.querySelector('.textarea').selectionStart;
 }
 
 document.querySelector('[code=CapsLock]').addEventListener('click', (event) => {
