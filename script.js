@@ -205,10 +205,17 @@ function deleteLetter() {
   const position = document.querySelector('.textarea').selectionStart;
   const text = document.querySelector('.textarea').value;
 
-  document.querySelector('.textarea').value = `${text.slice(0, `${position - 1}`)}${text.slice(position)}`;
+  if (document.querySelector('.textarea').selectionStart !== document.querySelector('.textarea').selectionEnd) {
+    document.querySelector('.textarea').value = `${text.slice(0, `${position}`)}${text.slice(document.querySelector('.textarea').selectionEnd)}`;
 
-  const textarea = document.getElementById('textarea');
-  setCaretPosition(textarea, `${position - 1}`);
+    const textarea = document.getElementById('textarea');
+    setCaretPosition(textarea, `${position}`);
+  } else {
+    document.querySelector('.textarea').value = `${text.slice(0, `${position - 1}`)}${text.slice(position)}`;
+
+    const textarea = document.getElementById('textarea');
+    setCaretPosition(textarea, `${position - 1}`);
+  }
 }
 
 document.querySelector('[code="Backspace"]').addEventListener('click', deleteLetter);
@@ -237,10 +244,17 @@ function deleteNextLetter() {
   const position = document.querySelector('.textarea').selectionStart;
   const text = document.querySelector('.textarea').value;
 
-  document.querySelector('.textarea').value = `${text.slice(0, `${position}`)}${text.slice(`${position + 1}`)}`;
+  if (document.querySelector('.textarea').selectionStart !== document.querySelector('.textarea').selectionEnd) {
+    document.querySelector('.textarea').value = `${text.slice(0, `${position}`)}${text.slice(document.querySelector('.textarea').selectionEnd)}`;
 
-  const textarea = document.getElementById('textarea');
-  setCaretPosition(textarea, `${position}`);
+    const textarea = document.getElementById('textarea');
+    setCaretPosition(textarea, `${position}`);
+  } else {
+    document.querySelector('.textarea').value = `${text.slice(0, `${position}`)}${text.slice(`${position + 1}`)}`;
+
+    const textarea = document.getElementById('textarea');
+    setCaretPosition(textarea, `${position}`);
+  }
 }
 
 document.querySelector('[code="Delete"]').addEventListener('click', deleteNextLetter);
