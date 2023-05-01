@@ -1,0 +1,95 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+}
+
+.container {
+  margin: 30px auto;
+  padding: 0 20px;
+  width: 1090px;
+}
+
+.title {
+  margin-bottom: 20px;
+  font-size: 60px;
+  text-align: center;
+  background: -webkit-linear-gradient(90deg, rgba(10,62,62,1) 0%, rgba(23,119,113,1) 40%, rgba(30,172,171,1) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.descr {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.keyboard {
+  width: 1050px;
+  margin-top: 20px;
+  padding: 5px;
+  border-radius: 4px;
+  background: rgb(10,62,62);
+  background: linear-gradient(90deg, rgba(10,62,62,1) 0%, rgba(23,119,113,1) 40%, rgba(30,172,171,1) 100%);
+}
+
+.row {
+  display: flex;
+  width: 1040px;
+  gap: 10px;
+  padding: 5px;
+}
+
+.key {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+  transition: 0.5s;
+}
+.key:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 0 rgb(32, 107, 109);
+}
+
+.key:active {
+  background-color: rgb(32, 107, 109);
+  color: white;
+  transform: translateY(0px);
+  box-shadow: 0 0 0 rgb(32, 107, 109);
+}
+
+.key--active {
+  background-color: rgb(32, 107, 109);
+  color: white;
+  transform: translateY(0px);
+  box-shadow: 0 0 0 rgb(32, 107, 109);
+  transition: 0.5s;
+}
+
+.grow {
+  flex-grow: 2;
+}
+
+.growx {
+  flex-grow: 25;
+}
+
+textarea {
+  width: 1050px;
+  height: 150px;
+  padding: 20px;
+  font-size: 16px;
+}
+
+span {
+  color: rgb(17, 75, 77);
+  font-size: 16px;
+}
